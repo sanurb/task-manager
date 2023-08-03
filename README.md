@@ -1,31 +1,29 @@
 ## 1. Diagrama de Contexto
 ```mermaid
 graph LR
-  User1[(Usuario 1)]
-  User2[(Usuario 2)]
-  System((Sistema de Gestión de Tareas))
-  User1 -->|Usa| System
-  User2 -->|Usa| System
+    A[Plataforma de Gestión de Tareas] -->|Interactúa| B[Usuario Administrador]
+    A -->|Interactúa| C[Usuario Regular]
 ```
 
 ## 2. Diagrama de Contenedores
 ```mermaid
 graph LR
-  User1[(Usuario)]
-  WebApp[Aplicación Web]
-  DB((Base de Datos))
-  User1 -->|Usa| WebApp
-  WebApp -->|Lee/Escribe| DB
+    A[Cliente Web] -->|Realiza Solicitudes a| B[Servidor de Aplicaciones: API REST]
+    B -->|Consulta y Almacena Datos en| C[Base de Datos]
 ```
 
 ## 3. Diagrama de Componentes
 ```mermaid
 graph LR
-  User1[(Usuario)]
-  AuthComp{Componente de Autenticación}
-  TaskComp{Componente de Gestión de Tareas}
-  ReportComp{Componente de Informes}
-  User1 -->|Usa| AuthComp
-  User1 -->|Usa| TaskComp
-  User1 -->|Usa| ReportComp
+    A[Controlador de Autenticación] -->|Utiliza| B[Servicio de Autenticación]
+    C[Controlador de Usuarios] -->|Utiliza| D[Servicio de Usuarios]
+    E[Controlador de Tareas] -->|Utiliza| F[Servicio de Tareas]
+    G[Controlador de Proyectos] -->|Utiliza| H[Servicio de Proyectos]
+    I[Controlador de Informes] -->|Utiliza| J[Servicio de Informes]
+
+    B -->|Accede a| K[Base de Datos]
+    D -->|Accede a| K
+    F -->|Accede a| K
+    H -->|Accede a| K
+    J -->|Accede a| K
 ```
