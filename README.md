@@ -24,9 +24,21 @@ C4Context
 
 ## 2. Diagrama de Contenedores
 ```mermaid
-graph LR
-    A[Cliente Web] -->|Realiza Solicitudes a| B[Servidor de Aplicaciones: API REST]
-    B -->|Consulta y Almacena Datos en| C[Base de Datos]
+C4Container
+    title Diagrama de Contenedores para Sistema de Gestión de Proyectos
+
+    Person(usuario, Usuario, "Usuario que utiliza el sistema para gestionar proyectos y tareas")
+
+    Container_Boundary(sistema_gestion_proyectos, "Sistema de Gestión de Proyectos") {
+        Container(app_web, "Aplicación Web", "JavaScript, React", "Permite a los usuarios gestionar proyectos y tareas desde su navegador web")
+        Container(api, "API", "Java, Spring", "Permite a las aplicaciones interactuar con la base de datos")
+        ContainerDb(base_datos, "Base de Datos", "SQL", "Almacena información de proyectos, tareas y usuarios")
+    }
+
+    Rel(usuario, app_web, "Usa", "HTTPS")
+    Rel(app_web, api, "Realiza peticiones a", "REST/HTTP")
+    Rel_Back(base_datos, api, "Lee y escribe", "SQL")
+
 ```
 
 ## 3. Diagrama de Componentes
