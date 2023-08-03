@@ -92,4 +92,4 @@ erDiagram
 
 Las tablas relacionadas con la autenticación y roles están en tonos azules, las tareas y los proyectos en verdes y los informes en tonos anaranjados:
 
-<iframe width="560" height="315" src='https://dbdiagram.io/embed/64cbaf7c02bd1c4a5e318dc6'> </iframe>
+![ER](./dbmodel.svg)
