@@ -43,16 +43,53 @@ C4Container
 
 ## 3. Diagrama de Componentes
 ```mermaid
-graph LR
-    A[Controlador de Autenticación] -->|Utiliza| B[Servicio de Autenticación]
-    C[Controlador de Usuarios] -->|Utiliza| D[Servicio de Usuarios]
-    E[Controlador de Tareas] -->|Utiliza| F[Servicio de Tareas]
-    G[Controlador de Proyectos] -->|Utiliza| H[Servicio de Proyectos]
-    I[Controlador de Informes] -->|Utiliza| J[Servicio de Informes]
+C4Component
+    title Diagrama de Componentes para API del Sistema de Gestión de Tareas
 
-    B -->|Accede a| K[Base de Datos]
-    D -->|Accede a| K
-    F -->|Accede a| K
-    H -->|Accede a| K
-    J -->|Accede a| K
+    Container(app_web, "Aplicación Web", "JavaScript, React", "Permite a los usuarios gestionar y realizar seguimiento de sus tareas desde su navegador web")
+    ContainerDb(base_datos, "Base de Datos", "SQL", "Almacena información de tareas y usuarios")
+
+    Container_Boundary(api, "API") {
+        Component(usuarios_controller, "Usuarios Controller", "Spring MVC Rest Controller", "Permite manejar las peticiones relacionadas con usuarios")
+        Component(tareas_controller, "Tareas Controller", "Spring MVC Rest Controller", "Permite manejar las peticiones relacionadas con tareas")
+        Component(auth, "Authentication Component", "Spring Security", "Maneja la autenticación y autorización de usuarios")
+        Component(informes_controller, "Informes Controller", "Spring MVC Rest Controller", "Permite generar informes de avance y completitud de las tareas")
+
+        Component(usuario_service, "Usuario Service", "Spring Service", "Encapsula la lógica de negocio para los usuarios")
+        Component(tarea_service, "Tarea Service", "Spring Service", "Encapsula la lógica de negocio para las tareas")
+        Component(informe_service, "Informe Service", "Spring Service", "Encapsula la lógica de negocio para generar informes")
+
+        Rel(usuarios_controller, usuario_service, "Utiliza")
+        Rel(tareas_controller, tarea_service, "Utiliza")
+        Rel(informes_controller, informe_service, "Utiliza")
+
+        Rel(usuario_service, auth, "Utiliza")
+        Rel(tarea_service, auth, "Utiliza")
+
+        Rel_Back(usuario_service, base_datos, "Lee y escribe", "JPA/Hibernate")
+        Rel_Back(tarea_service, base_datos, "Lee y escribe", "JPA/Hibernate")
+    }
+
+    Rel_Back(app_web, usuarios_controller, "Realiza peticiones a", "REST/HTTP")
+    Rel_Back(app_web, tareas_controller, "Realiza peticiones a", "REST/HTTP")
+    Rel_Back(app_web, informes_controller, "Realiza peticiones a", "REST/HTTP")
+
 ```
+
+# Base de datos
+
+```mermaid
+erDiagram
+    Usuarios ||--o{ Usuarios_Roles : tiene
+    Usuarios ||--o{ Tareas : "crea/actualiza"
+    Usuarios ||--o{ Tareas : "asigna a"
+    Usuarios ||--o{ Proyectos : crea
+    Usuarios ||--o{ Informes : genera
+    Roles ||--o{ Usuarios_Roles : tiene
+    Tareas ||--o{ Proyectos_Tareas : pertenece_a
+    Proyectos ||--o{ Proyectos_Tareas : tiene
+```
+
+Las tablas relacionadas con la autenticación y roles están en tonos azules, las tareas y los proyectos en verdes y los informes en tonos anaranjados:
+
+<iframe width="560" height="315" src='https://dbdiagram.io/embed/64cbaf7c02bd1c4a5e318dc6'> </iframe>
