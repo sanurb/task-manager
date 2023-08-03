@@ -1,8 +1,25 @@
 ## 1. Diagrama de Contexto
 ```mermaid
-graph LR
-    A[Plataforma de Gestión de Tareas] -->|Interactúa| B[Usuario Administrador]
-    A -->|Interactúa| C[Usuario Regular]
+C4Context
+    title Diagrama de Contexto para Sistema de Gestión de Tareas
+    Enterprise_Boundary(b0, "Boundary0") {
+        Person(usuario, "Usuario", "Un usuario del sistema con la capacidad de crear, asignar y seguir tareas.")
+        Person(administrador, "Administrador", "Un administrador con la capacidad de gestionar usuarios y roles.")
+        System(systemaGestion, "Sistema de Gestión de Tareas", "Permite a los usuarios organizar, administrar y hacer seguimiento de sus tareas y proyectos.")
+        Enterprise_Boundary(b1, "Boundary") {
+            System_Boundary(b2, "Boundary2") {
+                System(sistemaAutenticacion, "Sistema de Autenticación", "Gestiona la autenticación de los usuarios.")
+                System(sistemaInformes, "Sistema de Informes", "Permite generar informes de progreso y completitud de las tareas.")
+                System(sistemaBaseDatos, "Base de Datos", "Almacena información de usuarios, tareas y proyectos.")
+            }
+        }
+    }
+    BiRel(usuario, systemaGestion, "Usa")
+    BiRel(administrador, systemaGestion, "Administra")
+    Rel(systemaGestion, sistemaAutenticacion, "Valida usuarios con")
+    Rel(systemaGestion, sistemaInformes, "Genera informes con")
+    Rel(systemaGestion, sistemaBaseDatos, "Guarda y recupera información de")
+
 ```
 
 ## 2. Diagrama de Contenedores
