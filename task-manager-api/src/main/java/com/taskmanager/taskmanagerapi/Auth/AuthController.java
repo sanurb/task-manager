@@ -1,22 +1,28 @@
 package com.taskmanager.taskmanagerapi.Auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
+    private final AuthService authService;
     @PostMapping(value = "login")
-    public String login(){
-        return "Logged from public endpoint";
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
+
+        return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping(value = "register")
-    public String register(){
-        return "Register from public endpoint";
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws ParseException {
+        return ResponseEntity.ok(authService.register(request));
     }
 }
