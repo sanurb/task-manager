@@ -20,6 +20,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "register")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws ParseException {
         return ResponseEntity.ok(authService.register(request));
     }
