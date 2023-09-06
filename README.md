@@ -1,95 +1,113 @@
-## 1. Diagrama de Contexto
+## 1. Context Diagram
 ```mermaid
 C4Context
-    title Diagrama de Contexto para Sistema de Gestión de Tareas
+    title Context Diagram for Task Management System
     Enterprise_Boundary(b0, "Boundary0") {
-        Person(usuario, "Usuario", "Un usuario del sistema con la capacidad de crear, asignar y seguir tareas.")
-        Person(administrador, "Administrador", "Un administrador con la capacidad de gestionar usuarios y roles.")
-        System(systemaGestion, "Sistema de Gestión de Tareas", "Permite a los usuarios organizar, administrar y hacer seguimiento de sus tareas y proyectos.")
+        Person(user, "User", "A system user with the ability to create, assign, and track tasks.")
+        Person(administrator, "Administrator", "An administrator with the ability to manage users and roles.")
+        System(taskManagementSystem, "Task Management System", "Allows users to organize, manage, and track their tasks and projects.")
         Enterprise_Boundary(b1, "Boundary") {
             System_Boundary(b2, "Boundary2") {
-                System(sistemaAutenticacion, "Sistema de Autenticación", "Gestiona la autenticación de los usuarios.")
-                System(sistemaInformes, "Sistema de Informes", "Permite generar informes de progreso y completitud de las tareas.")
-                System(sistemaBaseDatos, "Base de Datos", "Almacena información de usuarios, tareas y proyectos.")
+                System(authenticationSystem, "Authentication System", "Manages user authentication.")
+                System(reportsSystem, "Reports System", "Allows generating progress and completion reports for tasks.")
+                System(database, "Database", "Stores user, task, and project information.")
             }
         }
     }
-    BiRel(usuario, systemaGestion, "Usa")
-    BiRel(administrador, systemaGestion, "Administra")
-    Rel(systemaGestion, sistemaAutenticacion, "Valida usuarios con")
-    Rel(systemaGestion, sistemaInformes, "Genera informes con")
-    Rel(systemaGestion, sistemaBaseDatos, "Guarda y recupera información de")
+    BiRel(user, taskManagementSystem, "Uses")
+    BiRel(administrator, taskManagementSystem, "Administers")
+    Rel(taskManagementSystem, authenticationSystem, "Validates users with")
+    Rel(taskManagementSystem, reportsSystem, "Generates reports with")
+    Rel(taskManagementSystem, database, "Stores and retrieves information from")
 
 ```
 
-## 2. Diagrama de Contenedores
+## 2. Container Diagram
 ```mermaid
 C4Container
-    title Diagrama de Contenedores para Sistema de Gestión de Proyectos
+    title Container Diagram for Project Management System
 
-    Person(usuario, Usuario, "Usuario que utiliza el sistema para gestionar proyectos y tareas")
+    Person(user, User, "User who uses the system to manage projects and tasks")
 
-    Container_Boundary(sistema_gestion_proyectos, "Sistema de Gestión de Proyectos") {
-        Container(app_web, "Aplicación Web", "JavaScript, React", "Permite a los usuarios gestionar proyectos y tareas desde su navegador web")
-        Container(api, "API", "Java, Spring", "Permite a las aplicaciones interactuar con la base de datos")
-        ContainerDb(base_datos, "Base de Datos", "SQL", "Almacena información de proyectos, tareas y usuarios")
+    Container_Boundary(project_management_system, "Project Management System") {
+        Container(web_app, "Web Application", "JavaScript, React", "Allows users to manage projects and tasks from their web browser")
+        Container(api, "API", "Java, Spring", "Allows applications to interact with the database")
+        ContainerDb(database, "Database", "SQL", "Stores information about projects, tasks, and users")
     }
 
-    Rel(usuario, app_web, "Usa", "HTTPS")
-    Rel(app_web, api, "Realiza peticiones a", "REST/HTTP")
-    Rel_Back(base_datos, api, "Lee y escribe", "SQL")
+    Rel(user, web_app, "Uses", "HTTPS")
+    Rel(web_app, api, "Makes requests to", "REST/HTTP")
+    Rel_Back(database, api, "Reads and writes to", "SQL")
 
 ```
 
-## 3. Diagrama de Componentes
+## 3. Component Diagram
 ```mermaid
 C4Component
-    title Diagrama de Componentes para API del Sistema de Gestión de Tareas
+    title Component Diagram for Task Management System API
 
-    Container(app_web, "Aplicación Web", "JavaScript, React", "Permite a los usuarios gestionar y realizar seguimiento de sus tareas desde su navegador web")
-    ContainerDb(base_datos, "Base de Datos", "SQL", "Almacena información de tareas y usuarios")
+    Container(web_app, "Web Application", "JavaScript, React", "Allows users to manage and track their tasks from their web browser")
+    ContainerDb(database, "Database", "SQL", "Stores information about tasks and users")
 
     Container_Boundary(api, "API") {
-        Component(usuarios_controller, "Usuarios Controller", "Spring MVC Rest Controller", "Permite manejar las peticiones relacionadas con usuarios")
-        Component(tareas_controller, "Tareas Controller", "Spring MVC Rest Controller", "Permite manejar las peticiones relacionadas con tareas")
-        Component(auth, "Authentication Component", "Spring Security", "Maneja la autenticación y autorización de usuarios")
-        Component(informes_controller, "Informes Controller", "Spring MVC Rest Controller", "Permite generar informes de avance y completitud de las tareas")
+        Component(users_controller, "Users Controller", "Spring MVC Rest Controller", "Handles requests related to users")
+        Component(tasks_controller, "Tasks Controller", "Spring MVC Rest Controller", "Handles requests related to tasks")
+        Component(auth, "Authentication Component", "Spring Security", "Manages user authentication and authorization")
+        Component(reports_controller, "Reports Controller", "Spring MVC Rest Controller", "Allows generating progress and completion reports for tasks")
 
-        Component(usuario_service, "Usuario Service", "Spring Service", "Encapsula la lógica de negocio para los usuarios")
-        Component(tarea_service, "Tarea Service", "Spring Service", "Encapsula la lógica de negocio para las tareas")
-        Component(informe_service, "Informe Service", "Spring Service", "Encapsula la lógica de negocio para generar informes")
+        Component(user_service, "User Service", "Spring Service", "Encapsulates business logic for users")
+        Component(task_service, "Task Service", "Spring Service", "Encapsulates business logic for tasks")
+        Component(report_service, "Report Service", "Spring Service", "Encapsulates business logic for generating reports")
 
-        Rel(usuarios_controller, usuario_service, "Utiliza")
-        Rel(tareas_controller, tarea_service, "Utiliza")
-        Rel(informes_controller, informe_service, "Utiliza")
+        Rel(users_controller, user_service, "Uses")
+        Rel(tasks_controller, task_service, "Uses")
+        Rel(reports_controller, report_service, "Uses")
 
-        Rel(usuario_service, auth, "Utiliza")
-        Rel(tarea_service, auth, "Utiliza")
+        Rel(user_service, auth, "Uses")
+        Rel(task_service, auth, "Uses")
 
-        Rel_Back(usuario_service, base_datos, "Lee y escribe", "JPA/Hibernate")
-        Rel_Back(tarea_service, base_datos, "Lee y escribe", "JPA/Hibernate")
+        Rel_Back(user_service, database, "Reads and writes", "JPA/Hibernate")
+        Rel_Back(task_service, database, "Reads and writes", "JPA/Hibernate")
     }
 
-    Rel_Back(app_web, usuarios_controller, "Realiza peticiones a", "REST/HTTP")
-    Rel_Back(app_web, tareas_controller, "Realiza peticiones a", "REST/HTTP")
-    Rel_Back(app_web, informes_controller, "Realiza peticiones a", "REST/HTTP")
+    Rel_Back(web_app, users_controller, "Makes requests to", "REST/HTTP")
+    Rel_Back(web_app, tasks_controller, "Makes requests to", "REST/HTTP")
+    Rel_Back(web_app, reports_controller, "Makes requests to", "REST/HTTP")
 
 ```
 
-# Base de datos
+# Database
 
 ```mermaid
 erDiagram
-    Usuarios ||--o{ Usuarios_Roles : tiene
-    Usuarios ||--o{ Tareas : "crea/actualiza"
-    Usuarios ||--o{ Tareas : "asigna a"
-    Usuarios ||--o{ Proyectos : crea
-    Usuarios ||--o{ Informes : genera
-    Roles ||--o{ Usuarios_Roles : tiene
-    Tareas ||--o{ Proyectos_Tareas : pertenece_a
-    Proyectos ||--o{ Proyectos_Tareas : tiene
+    Users ||--o{ User_Roles : has
+    Users ||--o{ Tasks : "creates/updates"
+    Users ||--o{ Tasks : "assigns to"
+    Users ||--o{ Projects : creates
+    Users ||--o{ Reports : generates
+    Roles [color=blue] {
+        Id
+        Name
+    } ||--o{ User_Roles : has
+    Tasks [color=green] {
+        Id
+        Title
+        Description
+        DueDate
+    } ||--o{ Project_Tasks : belongs_to
+    Projects [color=green] {
+        Id
+        Name
+        Description
+    } ||--o{ Project_Tasks : has
+    Reports [color=orange] {
+        Id
+        Title
+        Content
+        Date
+    }
 ```
 
-Las tablas relacionadas con la autenticación y roles están en tonos azules, las tareas y los proyectos en verdes y los informes en tonos anaranjados:
+The tables related to authentication and roles are in shades of blue, tasks and projects in green, and reports in shades of orange:
 
 ![ER](./dbmodel.svg)
