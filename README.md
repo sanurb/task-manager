@@ -85,27 +85,10 @@ erDiagram
     Users ||--o{ Tasks : "assigns to"
     Users ||--o{ Projects : creates
     Users ||--o{ Reports : generates
-    Roles [color=blue] {
-        Id
-        Name
-    } ||--o{ User_Roles : has
-    Tasks [color=green] {
-        Id
-        Title
-        Description
-        DueDate
-    } ||--o{ Project_Tasks : belongs_to
-    Projects [color=green] {
-        Id
-        Name
-        Description
-    } ||--o{ Project_Tasks : has
-    Reports [color=orange] {
-        Id
-        Title
-        Content
-        Date
-    }
+    Roles ||--o{ User_Roles : has
+    Tasks ||--o{ Project_Tasks : belongs_to
+    Projects ||--o{ Project_Tasks : has
+
 ```
 
 The tables related to authentication and roles are in shades of blue, tasks and projects in green, and reports in shades of orange:
