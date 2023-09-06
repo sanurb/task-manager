@@ -74,7 +74,7 @@ mock.onGet('/api/auth/access-token').reply((config) => {
 
 mock.onPost('/api/auth/sign-up').reply((request) => {
   const data = JSON.parse(request.data);
-  const { displayName, password, email } = data;
+  const { username, password, email } = data;
   const isEmailExists = usersApi.find((_user) => _user.data.email === email);
   const error = [];
 
@@ -92,7 +92,7 @@ mock.onPost('/api/auth/sign-up').reply((request) => {
       password,
       role: 'admin',
       data: {
-        displayName,
+        username,
         photoURL: 'assets/images/avatars/Abbott.jpg',
         email,
         settings: {},
