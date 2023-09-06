@@ -1,9 +1,4 @@
-﻿# Task-manager: API _REST
-
-This is the API REST built with Spring Boot, for handling the backend of the task management application Task-Manager.
-
-
-## Requirements to run
+﻿## Requirements to run
   
 
 - Java JDK 17+
@@ -48,8 +43,12 @@ This procedure is based on SQL Server, and commands and procedures may vary depe
 
 Now the project should be running on port 8090 and with your local address 127.0.0.1
 
-  
-  
+___
+# Task-manager: API _REST
+
+This is the API REST built with Spring Boot, for handling the backend of the task management application Task-Manager.
+
+
 
 ## REST_API Calls
 
