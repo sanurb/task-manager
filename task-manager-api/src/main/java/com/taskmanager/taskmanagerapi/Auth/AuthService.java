@@ -33,12 +33,17 @@ public class AuthService {
         User userData = userRepository.findByUsername(request.getUsername()).orElseThrow();
         String token = jwtService.getToken(user);
 
+        // Tmp user to send
+        User tmpUser = new User();
+        tmpUser.setId(userData.getId());
+        tmpUser.setUsername(userData.getUsername());
+        tmpUser.setEmail(userData.getEmail());
+        tmpUser.setLast_login(userData.getLast_login());
+
+
         return AuthResponse.builder()
                 .token(token)
-                .user_id(userData.getId())
-                .username(userData.getUsername())
-                .email(userData.getEmail())
-                .last_login(userData.getLast_login())
+                .userData(tmpUser)
                 .build();
 
     }
