@@ -71,12 +71,12 @@ function SignInPage() {
           <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" />
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
-            Sign in
+            Inicia sesion
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">
-            <Typography>Don't have an account?</Typography>
+            <Typography>No tienes una cuenta?</Typography>
             <Link className="ml-4" to="/sign-up">
-              Sign up
+              Regístrate
             </Link>
           </div>
 
@@ -130,7 +130,7 @@ function SignInPage() {
                 render={({ field }) => (
                   <FormControl>
                     <FormControlLabel
-                      label="Remember me"
+                      label="Recuerdame"
                       control={<Checkbox size="small" {...field} />}
                     />
                   </FormControl>
@@ -138,7 +138,7 @@ function SignInPage() {
               />
 
               <Link className="text-md font-medium" to="/pages/auth/forgot-password">
-                Forgot password?
+                ¿Ha olvidado su contraseña?
               </Link>
             </div>
 
@@ -146,23 +146,23 @@ function SignInPage() {
               variant="contained"
               color="secondary"
               className=" w-full mt-16"
-              aria-label="Sign in"
+              aria-label="Iniciar sesión"
               disabled={_.isEmpty(dirtyFields) || !isValid}
               type="submit"
               size="large"
             >
-              Sign in
+              Iniciar sesión
             </Button>
 
-            <div className="flex items-center mt-32">
+            {/* <div className="flex items-center mt-32">
               <div className="flex-auto mt-px border-t" />
               <Typography className="mx-8" color="text.secondary">
                 Or continue with
               </Typography>
               <div className="flex-auto mt-px border-t" />
-            </div>
+            </div> */}
 
-            <div className="flex items-center mt-32 space-x-16">
+            {/* <div className="flex items-center mt-32 space-x-16">
               <Button variant="outlined" className="flex-auto">
                 <FuseSvgIcon size={20} color="action">
                   feather:facebook
@@ -178,7 +178,7 @@ function SignInPage() {
                   feather:github
                 </FuseSvgIcon>
               </Button>
-            </div>
+            </div> */}
           </form>
         </div>
       </Paper>
