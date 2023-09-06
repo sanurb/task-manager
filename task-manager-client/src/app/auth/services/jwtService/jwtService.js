@@ -61,10 +61,10 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
-  signInWithEmailAndPassword = (email, password) => {
+  signInWithUserAndPassword = (username, password) => {
     return new Promise((resolve, reject) => {
         axios
-            .post('http://127.0.0.1:8090/auth/login', { email, password })
+            .post('http://127.0.0.1:8090/auth/login', { username, password })
             .then((response) => {
                 if (response.data.user) {
                     this.setSession(response.data.access_token);

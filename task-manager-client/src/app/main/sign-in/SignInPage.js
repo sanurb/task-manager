@@ -21,7 +21,7 @@ import jwtService from '../../auth/services/jwtService';
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  email: yup.string().email('You must enter a valid email').required('You must enter a email'),
+  username: yup.string().required('You must enter a username'),
   password: yup
     .string()
     .required('Please enter your password.')
@@ -29,7 +29,7 @@ const schema = yup.object().shape({
 });
 
 const defaultValues = {
-  email: '',
+  username: '',
   password: '',
   remember: true,
 };
@@ -44,13 +44,13 @@ function SignInPage() {
   const { isValid, dirtyFields, errors } = formState;
 
   useEffect(() => {
-    setValue('email', 'admin@fusetheme.com', { shouldDirty: true, shouldValidate: true });
-    setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
+    setValue('username', 'UserPrueba1', { shouldDirty: true, shouldValidate: true });
+    setValue('password', 'passwordTest', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
-  function onSubmit({ email, password }) {
+  function onSubmit({ username, password }) {
     jwtService
-      .signInWithEmailAndPassword(email, password)
+      .signInWithUserAndPassword(username, password)
       .then((user) => {
         // No need to do anything, user data will be set at app/auth/AuthContext
       })
@@ -87,17 +87,17 @@ function SignInPage() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Controller
-              name="email"
+              name="username"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Email"
+                  label="Username"
                   autoFocus
-                  type="email"
-                  error={!!errors.email}
-                  helperText={errors?.email?.message}
+                  type="text"
+                  error={!!errors.username}
+                  helperText={errors?.username?.message}
                   variant="outlined"
                   required
                   fullWidth
@@ -154,7 +154,7 @@ function SignInPage() {
               Sign in
             </Button>
 
-            <div className="flex items-center mt-32">
+            {/* <div className="flex items-center mt-32">
               <div className="flex-auto mt-px border-t" />
               <Typography className="mx-8" color="text.secondary">
                 Or continue with
@@ -178,7 +178,7 @@ function SignInPage() {
                   feather:github
                 </FuseSvgIcon>
               </Button>
-            </div>
+            </div> */}
           </form>
         </div>
       </Paper>
