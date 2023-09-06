@@ -1,7 +1,6 @@
 ## 1. Context Diagram
 ```mermaid
 C4Context
-    C4Context
     title Authentication System Context Diagram
     Enterprise_Boundary(authBoundary, "Authentication System") {
         Person(user, "End User", "User trying to access the application.")
