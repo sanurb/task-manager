@@ -43,10 +43,10 @@ function SignInPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  useEffect(() => {
-    setValue('username', 'UserPrueba1', { shouldDirty: true, shouldValidate: true });
-    setValue('password', 'passwordTest', { shouldDirty: true, shouldValidate: true });
-  }, [setValue]);
+  // useEffect(() => {
+  //   setValue('username', 'UserPrueba1', { shouldDirty: true, shouldValidate: true });
+  //   setValue('password', 'passwordTest', { shouldDirty: true, shouldValidate: true });
+  // }, [setValue]);
 
   function onSubmit({ username, password }) {
     jwtService
