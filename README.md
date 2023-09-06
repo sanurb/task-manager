@@ -24,55 +24,80 @@ C4Context
 
 ## 2. Container Diagram
 ```mermaid
-C4Container
-    title Container Diagram for Project Management System
-
-    Person(user, User, "User who uses the system to manage projects and tasks")
-
-    Container_Boundary(project_management_system, "Project Management System") {
-        Container(web_app, "Web Application", "JavaScript, React", "Allows users to manage projects and tasks from their web browser")
-        Container(api, "API", "Java, Spring", "Allows applications to interact with the database")
-        ContainerDb(database, "Database", "SQL", "Stores information about projects, tasks, and users")
+C4Context
+    title Authentication System Container Diagram
+    Enterprise_Boundary(authBoundary, "Authentication System") {
+        Person(user, "End User", "User trying to access the application.")
+        System(authSystem, "Authentication System", "Handles user registration, login, and JWT token management.")
+        System(externalSystem, "External System", "Other systems that might interact with the authentication system.")
     }
+    BiRel(user, authSystem, "Registers/Logs in")
+    BiRel(externalSystem, authSystem, "Requests user data or verifies tokens")
 
-    Rel(user, web_app, "Uses", "HTTPS")
-    Rel(web_app, api, "Makes requests to", "REST/HTTP")
-    Rel_Back(database, api, "Reads and writes to", "SQL")
+```
+```mermaid
+C4Container
+title Authentication System Container Diagram
+
+Enterprise_Boundary(authBoundary, "Authentication System") {
+    Person(user, "End User", "User trying to access the application.")
+    System(database, "Database", "Stores user data and hashed passwords.")
+    
+    Container(frontendApp, "Frontend Application", "React-based web application for registration and login.")
+    Container(backendApp, "Backend API", "Spring Boot backend for authentication, user management, and JWT token generation.")
+
+    Rel(user, frontendApp, "Uses", "HTTP/HTTPS")
+    Rel(backendApp, database, "Reads/Writes user data", "SQL")
+    Rel(frontendApp, backendApp, "Sends authentication requests", "HTTP/HTTPS")
+    
+}
 
 ```
 
 ## 3. Component Diagram
 ```mermaid
 C4Component
-    title Component Diagram for Task Management System API
-
-    Container(web_app, "Web Application", "JavaScript, React", "Allows users to manage and track their tasks from their web browser")
-    ContainerDb(database, "Database", "SQL", "Stores information about tasks and users")
-
-    Container_Boundary(api, "API") {
-        Component(users_controller, "Users Controller", "Spring MVC Rest Controller", "Handles requests related to users")
-        Component(tasks_controller, "Tasks Controller", "Spring MVC Rest Controller", "Handles requests related to tasks")
-        Component(auth, "Authentication Component", "Spring Security", "Manages user authentication and authorization")
-        Component(reports_controller, "Reports Controller", "Spring MVC Rest Controller", "Allows generating progress and completion reports for tasks")
-
-        Component(user_service, "User Service", "Spring Service", "Encapsulates business logic for users")
-        Component(task_service, "Task Service", "Spring Service", "Encapsulates business logic for tasks")
-        Component(report_service, "Report Service", "Spring Service", "Encapsulates business logic for generating reports")
-
-        Rel(users_controller, user_service, "Uses")
-        Rel(tasks_controller, task_service, "Uses")
-        Rel(reports_controller, report_service, "Uses")
-
-        Rel(user_service, auth, "Uses")
-        Rel(task_service, auth, "Uses")
-
-        Rel_Back(user_service, database, "Reads and writes", "JPA/Hibernate")
-        Rel_Back(task_service, database, "Reads and writes", "JPA/Hibernate")
+    title Backend API Component Diagram
+    Enterprise_Boundary(backendBoundary, "Backend API (Spring Boot)") {
+        
+        Component(authController, "Auth Controller", "Exposes endpoints for user registration and login.")
+        Component(authService, "Auth Service", "Handles main authentication logic.")
+        Component(jwtService, "JWT Service", "Manages JWT token operations.")
+        Component(userRepository, "User Repository", "CRUD operations for users.")
+        Component(loginRequest, "Login Request DTO", "Data structure for login.")
+        Component(registerRequest, "Register Request DTO", "Data structure for registration.")
+        
+        System(database, "Database", "Stores user data and hashed passwords.")
+        
+        Rel(authController, authService, "Delegates authentication tasks")
+        Rel(authService, jwtService, "Requests JWT operations")
+        Rel(authService, userRepository, "CRUD operations")
+        Rel(authController, loginRequest, "Uses for login")
+        Rel(authController, registerRequest, "Uses for registration")
+        Rel(userRepository, database, "Reads/Writes user data")
     }
 
-    Rel_Back(web_app, users_controller, "Makes requests to", "REST/HTTP")
-    Rel_Back(web_app, tasks_controller, "Makes requests to", "REST/HTTP")
-    Rel_Back(web_app, reports_controller, "Makes requests to", "REST/HTTP")
+```
+
+```mermaid
+C4Component
+    title Frontend Application Component Diagram
+    Enterprise_Boundary(frontendBoundary, "Frontend Application (React)") {
+        
+        Component(signInPage, "SignIn Page", "User interface for logging in.")
+        Component(signUpPage, "SignUp Page", "User interface for registration.")
+        Component(authContext, "Auth Context", "Manages user authentication state in the frontend and provides functions for login and registration.")
+        Component(jwtService, "JWT Service", "Handles JWT token management, API calls, and Axios configurations.")
+        Component(jwtServiceConfig, "JWT Service Config", "Configurations for JWT service, including endpoint routes.")
+        Component(authRoles, "Auth Roles", "Defines authorization roles like admin, staff, user, etc.")
+        
+        Rel(signInPage, authContext, "Uses for authentication")
+        Rel(signUpPage, authContext, "Uses for registration")
+        Rel(authContext, jwtService, "Makes API calls for authentication")
+        Rel(jwtService, jwtServiceConfig, "Utilizes for API configurations")
+        Rel(signInPage, authRoles, "May use to determine access")
+        Rel(signUpPage, authRoles, "May use to determine access")
+    }
 
 ```
 
