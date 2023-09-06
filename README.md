@@ -1,31 +1,8 @@
 ## 1. Context Diagram
 ```mermaid
 C4Context
-    title Context Diagram for Task Management System
-    Enterprise_Boundary(b0, "Boundary0") {
-        Person(user, "User", "A system user with the ability to create, assign, and track tasks.")
-        Person(administrator, "Administrator", "An administrator with the ability to manage users and roles.")
-        System(taskManagementSystem, "Task Management System", "Allows users to organize, manage, and track their tasks and projects.")
-        Enterprise_Boundary(b1, "Boundary") {
-            System_Boundary(b2, "Boundary2") {
-                System(authenticationSystem, "Authentication System", "Manages user authentication.")
-                System(reportsSystem, "Reports System", "Allows generating progress and completion reports for tasks.")
-                System(database, "Database", "Stores user, task, and project information.")
-            }
-        }
-    }
-    BiRel(user, taskManagementSystem, "Uses")
-    BiRel(administrator, taskManagementSystem, "Administers")
-    Rel(taskManagementSystem, authenticationSystem, "Validates users with")
-    Rel(taskManagementSystem, reportsSystem, "Generates reports with")
-    Rel(taskManagementSystem, database, "Stores and retrieves information from")
-
-```
-
-## 2. Container Diagram
-```mermaid
-C4Context
-    title Authentication System Container Diagram
+    C4Context
+    title Authentication System Context Diagram
     Enterprise_Boundary(authBoundary, "Authentication System") {
         Person(user, "End User", "User trying to access the application.")
         System(authSystem, "Authentication System", "Handles user registration, login, and JWT token management.")
@@ -34,7 +11,10 @@ C4Context
     BiRel(user, authSystem, "Registers/Logs in")
     BiRel(externalSystem, authSystem, "Requests user data or verifies tokens")
 
+
 ```
+
+## 2. Container Diagram
 ```mermaid
 C4Container
 title Authentication System Container Diagram
