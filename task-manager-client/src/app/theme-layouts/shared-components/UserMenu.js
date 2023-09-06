@@ -76,7 +76,7 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:user-add </FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="Regístrate" />
+              <ListItemText primary="Sign up" />
             </MenuItem>
           </>
         ) : (
