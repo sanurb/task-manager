@@ -26,6 +26,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    // todo: check why is a error when giving the correct credentials
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserDetails user = userRepository.findByUsername(request.getUsername()).orElseThrow();
@@ -71,7 +72,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 // todo generar token
-                .access_token(jwtService.getToken(user))
+                .token(jwtService.getToken(user))
                 .build();
     }
 }
