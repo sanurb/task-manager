@@ -4,6 +4,7 @@ import com.taskmanager.taskmanagerapi.Auth.Jwt.JwtService;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponse;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseErr;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseOk;
+import com.taskmanager.taskmanagerapi.Auth.authResponse.ErrorData;
 import com.taskmanager.taskmanagerapi.dto.User;
 import com.taskmanager.taskmanagerapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,10 +51,12 @@ public class AuthService {
                     .user(tmpUser)
                     .build();
         }catch (BadCredentialsException ex){
+
+            ErrorData errx;
+            errx = new ErrorData(400, "Username or Email already exists", ex.getMessage());
+
             return AuthResponseErr.builder()
-                    .status(403)
-                    .title("Username or password incorrect")
-                    .detail(ex.getMessage())
+                    .error(errx)
                     .build();
         }
 

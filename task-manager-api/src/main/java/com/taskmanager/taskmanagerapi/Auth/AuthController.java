@@ -2,6 +2,7 @@ package com.taskmanager.taskmanagerapi.Auth;
 
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponse;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseErr;
+import com.taskmanager.taskmanagerapi.Auth.authResponse.ErrorData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,11 @@ public class AuthController {
         try {
             return ResponseEntity.ok(authService.register(request));
         }catch (DataIntegrityViolationException ex){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthResponseErr.builder().status(400).title("Username or Email already exists").detail(ex.getMessage()).build());
+
+            ErrorData errx;
+            errx = new ErrorData(400, "Username or Email already exists", ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthResponseErr.builder().error(errx).build());
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthResponseErr.builder().status(400).title("Username or Email already exists").detail(ex.getMessage()).build());
         }
     }
 }
