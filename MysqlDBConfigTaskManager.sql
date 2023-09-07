@@ -27,32 +27,76 @@ GRANT ALL PRIVILEGES ON TaskmanagerG3DB.* to 'taskManagerDBAdmin';
 /**/
 /**/
 
-CREATE TABLE TaskmanagerG3DB.ROLES(id int AUTO_INCREMENT, user_role varchar(64),
-    created_at date(), updated_at date(), deleted_at date(),
-    PRIMARY KEY(id), CONSTRAINT UNQ_user_role UNIQUE(user_role));
+CREATE TABLE TaskmanagerG3DB.ROLES(
+    id int AUTO_INCREMENT,
+    user_role varchar(64),
+    created_at date,
+    updated_at date,
+    deleted_at date,
+    PRIMARY KEY(id),
+    CONSTRAINT UNQ_user_role UNIQUE(user_role)
+);
 
-CREATE TABLE TaskmanagerG3DB.USER_ROLES(user_id int AUTO_INCREMENT, role_id int(),
-    created_at date(), updated_at date(), deleted_at date(),
-    PRIMARY KEY(user_id), CONSTRAINT UNQ_role_id UNIQUE(role_id));
+CREATE TABLE TaskmanagerG3DB.USER_ROLES (
+    user_id int AUTO_INCREMENT,
+    role_id int,
+    created_at date,
+    updated_at date,
+    deleted_at date,
+    PRIMARY KEY(user_id),
+    CONSTRAINT UNQ_role_id UNIQUE(role_id)
+);
 
-CREATE TABLE TaskmanagerG3DB.TASKS(id int AUTO_INCREMENT, title varchar(64),
-    task_description varchar(64), due_date date(), task_priority varchar(64), category varchar (64),
-    task_status varchar(64), created_by_user_id int(), assigned_to_user_id int(), created_at date(),
-    updated_at date(), deleted_at date(),
-    PRIMARY KEY(id), CONSTRAINT UNQ_title UNIQUE(title));
+CREATE TABLE TaskmanagerG3DB.TASKS(
+    id int AUTO_INCREMENT,
+    title varchar(64),
+    task_description varchar(64),
+    due_date date,
+    task_priority varchar(64),
+    category varchar(64),
+    task_status varchar(64),
+    created_by_user_id int,
+    assigned_to_user_id int,
+    created_at date,
+    updated_at date,
+    deleted_at date,
+    PRIMARY KEY(id),
+    CONSTRAINT UNQ_title UNIQUE(title)
+);
 
-CREATE TABLE TaskmanagerG3DB.PROJECTS(id int AUTO_INCREMENT, project_name varchar(64),
-    project_description varchar(64), created_by_user_id int(), created_at date(), updated_at date(),
-    deleted_at date(),
-    PRIMARY KEY(id), CONSTRAINT UNQ_project_name UNIQUE(project_name));
+CREATE TABLE TaskmanagerG3DB.PROJECTS(
+    id int AUTO_INCREMENT,
+    project_name varchar(64),
+    project_description varchar(64),
+    created_by_user_id int,
+    created_at date,
+    updated_at date,
+    deleted_at date,
+    PRIMARY KEY(id),
+    CONSTRAINT UNQ_project_name UNIQUE(project_name)
+);
 
-CREATE TABLE TaskmanagerG3DB.PROJECT_TASKS(project_id int AUTO_INCREMENT, task_id int(),
-    created_at date(), updated_at date(), deleted_at date(),
-    PRIMARY KEY(project_id), CONSTRAINT UNQ_task_id UNIQUE(task_id));
+CREATE TABLE TaskmanagerG3DB.PROJECT_TASKS(
+    project_id int AUTO_INCREMENT,
+    task_id int,
+    created_at date,
+    updated_at date,
+    deleted_at date,
+    PRIMARY KEY(project_id),
+    CONSTRAINT UNQ_task_id UNIQUE(task_id)
+);
 
-CREATE TABLE TaskmanagerG3DB.REPORTS(id int AUTO_INCREMENT, generated_by_user_id int(),
-    generated_date date(), report_data json(), created_at date(), updated_at date(), deleted_at date(),
-    PRIMARY KEY(id), CONSTRAINT UNQ_generated_by_user_id UNIQUE(generated_by_user_id));
+CREATE TABLE TaskmanagerG3DB.REPORTS(
+    id int AUTO_INCREMENT,
+    generated_by_user_id int,
+    generated_date date,
+    report_data json,
+    created_at date,
+    updated_at date,
+    deleted_at date,
+    PRIMARY KEY(id),
+    CONSTRAINT UNQ_generated_by_user_id UNIQUE(generated_by_user_id)
+);
 
 
 
