@@ -43,7 +43,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .token(token)
-                .userData(tmpUser)
+                .user(tmpUser)
                 .build();
 
     }

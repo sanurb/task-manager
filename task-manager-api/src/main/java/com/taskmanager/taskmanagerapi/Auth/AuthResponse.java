@@ -14,5 +14,5 @@ import java.util.Date;
 @NoArgsConstructor
 public class AuthResponse {
     private String token;
-    private User userData;
+    private User user;
 }
