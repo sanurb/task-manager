@@ -49,20 +49,21 @@ function SignInPage() {
 	// }, [setValue]);
 
 	function onSubmit({ username, password }) {
-		jwtService
-			.signInWithUserAndPassword(username, password)
+		jwtService.signInWithUserAndPassword(username, password)
 			.then((user) => {
 				// No need to do anything, user data will be set at app/auth/AuthContext
 			})
-			.catch((_errors) => {
-				_errors.forEach((error) => {
-					setError(error.type, {
+			.catch((errorResponse) => {
+				console.log(errorResponse);
+				if (errorResponse.status && errorResponse.title) {
+					setError("username", {
 						type: "manual",
-						message: error.message,
+						message: errorResponse.title,
 					});
-				});
+				}
 			});
 	}
+	
 
 	return (
 		<div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-1 min-w-0">
@@ -148,7 +149,6 @@ function SignInPage() {
 
 							<Link
 								className="text-md font-medium"
-								to="/pages/auth/forgot-password"
 							>
 								Forgot password?
 							</Link>

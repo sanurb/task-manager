@@ -20,7 +20,7 @@ class JwtService extends FuseUtils.EventEmitter {
         return new Promise((resolve, reject) => {
           if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
             // if you ever get an unauthorized response, logout the user
-            this.emit('onAutoLogout', 'Invalid access_token');
+            this.emit('onAutoLogout', 'Invalid token');
             this.setSession(null);
           }
           throw err;
@@ -30,20 +30,20 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   handleAuthentication = () => {
-    const access_token = this.getAccessToken();
+    const token = this.getAccessToken();
 
-    if (!access_token) {
+    if (!token) {
       this.emit('onNoAccessToken');
 
       return;
     }
 
-    if (this.isAuthTokenValid(access_token)) {
-      this.setSession(access_token);
+    if (this.isAuthTokenValid(token)) {
+      this.setSession(token);
       this.emit('onAutoLogin', true);
     } else {
       this.setSession(null);
-      this.emit('onAutoLogout', 'access_token expired');
+      this.emit('onAutoLogout', 'token expired');
     }
   };
 
@@ -51,7 +51,7 @@ class JwtService extends FuseUtils.EventEmitter {
     return new Promise((resolve, reject) => {
         axios.post(jwtServiceConfig.signUp, data).then((response) => {
             if (response.data.user) {
-                this.setSession(response.data.access_token);
+                this.setSession(response.data.token);
                 resolve(response.data.user);
                 this.emit('onLogin', response.data.user);
             } else {
@@ -67,11 +67,12 @@ class JwtService extends FuseUtils.EventEmitter {
             .post(jwtServiceConfig.signIn, { username, password })
             .then((response) => {
                 if (response.data.user) {
-                    this.setSession(response.data.access_token);
+                    this.setSession(response.data.token);
                     resolve(response.data.user);
                     this.emit('onLogin', response.data.user);
                 } else {
-                    reject(response.data.error);
+                    console.log(response);
+                    reject(response.data.status);
                 }
             });
     });
@@ -82,12 +83,12 @@ class JwtService extends FuseUtils.EventEmitter {
       axios
         .get(jwtServiceConfig.accessToken, {
           data: {
-            access_token: this.getAccessToken(),
+            token: this.getAccessToken(),
           },
         })
         .then((response) => {
           if (response.data.user) {
-            this.setSession(response.data.access_token);
+            this.setSession(response.data.token);
             resolve(response.data.user);
           } else {
             this.logout();
@@ -107,10 +108,10 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
-  setSession = (access_token) => {
-    if (access_token) {
-      localStorage.setItem('jwt_access_token', access_token);
-      axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+  setSession = (token) => {
+    if (token) {
+      localStorage.setItem('jwt_access_token', token);
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
       localStorage.removeItem('jwt_access_token');
       delete axios.defaults.headers.common.Authorization;
@@ -122,11 +123,11 @@ class JwtService extends FuseUtils.EventEmitter {
     this.emit('onLogout', 'Logged out');
   };
 
-  isAuthTokenValid = (access_token) => {
-    if (!access_token) {
+  isAuthTokenValid = (token) => {
+    if (!token) {
       return false;
     }
-    const decoded = jwtDecode(access_token);
+    const decoded = jwtDecode(token);
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
       console.warn('access token expired');
