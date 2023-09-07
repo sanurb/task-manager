@@ -1,6 +1,10 @@
 package com.taskmanager.taskmanagerapi.Auth;
 
+import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponse;
+import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseErr;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +26,12 @@ public class AuthController {
     @PostMapping(value = "register")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws ParseException {
-        return ResponseEntity.ok(authService.register(request));
+        //return ResponseEntity.ok(authService.register(request));
+
+        try {
+            return ResponseEntity.ok(authService.register(request));
+        }catch (DataIntegrityViolationException ex){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthResponseErr.builder().status(400).title("Username or Email already exists").detail(ex.getMessage()).build());
+        }
     }
 }
