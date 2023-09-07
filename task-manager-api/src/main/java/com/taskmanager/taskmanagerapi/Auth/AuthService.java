@@ -26,14 +26,24 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    // todo: check why is a error when giving the correct credentials
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserDetails user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        User userData = userRepository.findByUsername(request.getUsername()).orElseThrow();
         String token = jwtService.getToken(user);
 
+        // Tmp user to send
+        User tmpUser = new User();
+        tmpUser.setId(userData.getId());
+        tmpUser.setUsername(userData.getUsername());
+        tmpUser.setEmail(userData.getEmail());
+        tmpUser.setLast_login(userData.getLast_login());
+
+
         return AuthResponse.builder()
-                .user((User) user)
-                .access_token(token)
+                .token(token)
+                .user(tmpUser)
                 .build();
 
     }
@@ -62,7 +72,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 // todo generar token
-                .access_token(jwtService.getToken(user))
+                .token(jwtService.getToken(user))
                 .build();
     }
 }
