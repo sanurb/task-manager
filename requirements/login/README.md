@@ -45,9 +45,7 @@ This document outlines the detailed requirements for designing and implementing 
 
 #### FR3.2: Password Length
   - MUST validate that the password adheres to the minimum length policy (e.g., 8 characters).
-  
-#### FR3.3: Captcha
-  - SHOULD provide a CAPTCHA challenge for enhanced security measures.
+
 
 ### FR4: Database Authentication
 
