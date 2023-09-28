@@ -16,7 +16,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "dashboard/tsconfig.app.json",
         "assets": ["dashboard/src/favicon.ico", "dashboard/src/assets"],
-        "styles": ["dashboard/src/styles.sass"],
+        "styles": ["dashboard/src/styles.scss"],
         "scripts": [],
         "customWebpackConfig": {
           "path": "dashboard/webpack.config.js"

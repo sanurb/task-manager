@@ -6,12 +6,14 @@ import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseErr;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseOk;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.ErrorData;
 import com.taskmanager.taskmanagerapi.dto.User;
+import com.taskmanager.taskmanagerapi.dto.UserResponse;
 import com.taskmanager.taskmanagerapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -90,5 +93,24 @@ public class AuthService {
                 // todo generar token
                 .token(jwtService.getToken(user))
                 .build();
+    }
+
+    public UserResponse getUserByToken(String token) {
+        String username = jwtService.getUsernameFromToken(token);
+
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setLastLogin(user.getLast_login());
+        userResponse.setEnabled(user.isEnabled());
+        userResponse.setAuthorities(user.getAuthorities().stream().collect(Collectors.toList()));
+        userResponse.setAccountNonLocked(user.isAccountNonLocked());
+        userResponse.setCredentialsNonExpired(user.isCredentialsNonExpired());
+        userResponse.setAccountNonExpired(user.isAccountNonExpired());
+
+        return userResponse;
     }
 }
