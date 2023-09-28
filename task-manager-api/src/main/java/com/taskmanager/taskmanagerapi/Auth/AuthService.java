@@ -1,10 +1,16 @@
 package com.taskmanager.taskmanagerapi.Auth;
 
 import com.taskmanager.taskmanagerapi.Auth.Jwt.JwtService;
+import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponse;
+import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseErr;
+import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseOk;
+import com.taskmanager.taskmanagerapi.Auth.authResponse.ErrorData;
 import com.taskmanager.taskmanagerapi.dto.User;
+import com.taskmanager.taskmanagerapi.dto.UserResponse;
 import com.taskmanager.taskmanagerapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,23 +35,35 @@ public class AuthService {
 
     // todo: check why is a error when giving the correct credentials
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails user = userRepository.findByUsername(request.getUsername()).orElseThrow();
-        User userData = userRepository.findByUsername(request.getUsername()).orElseThrow();
-        String token = jwtService.getToken(user);
+        try{
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+            UserDetails user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+            User userData = userRepository.findByUsername(request.getUsername()).orElseThrow();
+            String token = jwtService.getToken(user);
 
-        // Tmp user to send
-        User tmpUser = new User();
-        tmpUser.setId(userData.getId());
-        tmpUser.setUsername(userData.getUsername());
-        tmpUser.setEmail(userData.getEmail());
-        tmpUser.setLast_login(userData.getLast_login());
+            // Tmp user to send
+            User tmpUser = new User();
+            tmpUser.setId(userData.getId());
+            tmpUser.setUsername(userData.getUsername());
+            tmpUser.setEmail(userData.getEmail());
+            tmpUser.setLast_login(userData.getLast_login());
 
 
-        return AuthResponse.builder()
-                .token(token)
-                .user(tmpUser)
-                .build();
+            return AuthResponseOk.builder()
+                    .token(token)
+                    .user(tmpUser)
+                    .build();
+        }catch (BadCredentialsException ex){
+
+            ErrorData errx;
+            errx = new ErrorData(400, "Username or Email already exists", ex.getMessage());
+
+            return AuthResponseErr.builder()
+                    .error(errx)
+                    .build();
+        }
+
+
 
     }
 
@@ -70,9 +89,28 @@ public class AuthService {
 
         userRepository.save(user);
 
-        return AuthResponse.builder()
+        return AuthResponseOk.builder()
                 // todo generar token
                 .token(jwtService.getToken(user))
                 .build();
+    }
+
+    public UserResponse getUserByToken(String token) {
+        String username = jwtService.getUsernameFromToken(token);
+
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setLastLogin(user.getLast_login());
+        userResponse.setEnabled(user.isEnabled());
+        userResponse.setAuthorities(user.getAuthorities().stream().collect(Collectors.toList()));
+        userResponse.setAccountNonLocked(user.isAccountNonLocked());
+        userResponse.setCredentialsNonExpired(user.isCredentialsNonExpired());
+        userResponse.setAccountNonExpired(user.isAccountNonExpired());
+
+        return userResponse;
     }
 }
