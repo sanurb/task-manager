@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@frontend/enviroments": ["dashboard/src/environments/environment"],
+      "@frontend/enviroments": ["dashboard/src/environments/environment"]
     }
   },
   "exclude": ["node_modules", "tmp"]
