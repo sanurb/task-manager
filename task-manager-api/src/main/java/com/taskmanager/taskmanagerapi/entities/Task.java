@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 
 @Data
@@ -34,7 +35,8 @@ public class Task {
 
     private String status;
 
-    // Todo : Verify if is required to use @PK notation
+    @OneToOne(fetch = FetchType.LAZY)
+    private Project project_id;
 
     @OneToOne
     private User created_by_user_id;
