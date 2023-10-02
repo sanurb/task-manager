@@ -86,6 +86,16 @@ CREATE TABLE TaskmanagerG3DB.PROJECT_TASKS(
     CONSTRAINT UNQ_task_id UNIQUE(task_id)
 );
 
+CREATE TABLE TaskmanagerG3.TASK_TAG(
+    tag_id int AUTO_INCREMENT,
+    tag_name varchar(128),
+    user_id int,
+    task_id int,
+    PRIMARY KEY(tag_id),
+    FOREIGN KEY (user_id) REFERENCES USERS(id),
+    FOREIGN KEY (task_id) REFERENCES PROJECT_TASKS(project_id)
+);
+
 CREATE TABLE TaskmanagerG3DB.REPORTS(
     id int AUTO_INCREMENT,
     generated_by_user_id int,

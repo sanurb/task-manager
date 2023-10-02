@@ -6,31 +6,28 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.Set;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
-@Table(name = "User_roles")
-public class UserRole {
+@Table(name = "Task_tags")
+public class TaskTag {
 
     @Id
     @GeneratedValue
-    private int id;
+    private int tag_id;
 
-    @OneToMany
-    private Set<User> user_id;
+    @Column(nullable = false)
+    private String tag_name;
 
-    @OneToMany
-    private Set<Role> role_id;
+    @Column(nullable = false)
+    private int user_id;
 
-    private Date created_at;
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Task> task_id;
 
-    private Date updated_at;
-
-    private Date deleted_at;
 
 }

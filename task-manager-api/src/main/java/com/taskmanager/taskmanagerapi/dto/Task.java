@@ -1,12 +1,11 @@
 package com.taskmanager.taskmanagerapi.dto;
 
 
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
@@ -15,10 +14,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
+@Entity
+@Table(name = "Task")
 public class Task {
 
     @Id
+    @GeneratedValue
     private int id;
 
     private String title;
@@ -34,15 +35,19 @@ public class Task {
     private String status;
 
     // Todo : Verify if is required to use @PK notation
-    private int created_by_user_id;
 
-    private int assigned_to_user_id;
+    @OneToOne
+    private User created_by_user_id;
+
+    @OneToOne
+    private User assigned_to_user_id;
 
     private Date created_at;
 
     private Date updated_at;
 
     private Date deleted_at;
+
 
 
 
