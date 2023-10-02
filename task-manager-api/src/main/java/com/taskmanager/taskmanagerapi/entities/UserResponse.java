@@ -1,4 +1,4 @@
-package com.taskmanager.taskmanagerapi.dto;
+package com.taskmanager.taskmanagerapi.entities;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
