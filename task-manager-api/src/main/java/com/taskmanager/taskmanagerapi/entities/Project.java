@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -26,7 +27,10 @@ public class Project {
     private String description;
 
 
-    @OneToMany(fetch = FetchType.LAZY)
+    /*@ManyToOne(fetch = FetchType.LAZY)
+    private User created_by_user_id;*/
+
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> created_by_user_id;
 
     private Date created_at;

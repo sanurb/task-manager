@@ -1,27 +1,18 @@
-package com.taskmanager.taskmanagerapi.entities;
+package com.taskmanager.taskmanagerapi.entities.requests;
 
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.Set;
-
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@Table(name = "Task")
-public class Task {
-
-    @Id
-    @GeneratedValue
-    private int id;
+public class TaskRequest {
 
     private String title;
 
@@ -35,24 +26,16 @@ public class Task {
 
     private String status;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Project> projectId;
+    private int project_id;
 
-    @ManyToMany
-    private Set<User> created_by_user_id;
+    private int create_by_user_id;
 
-    @ManyToMany
-    private Set<User> assigned_to_user_id;
+    private int asigned_to_user_id;
 
     private Date created_at;
 
     private Date updated_at;
 
     private Date deleted_at;
-
-
-
-
-
 
 }
