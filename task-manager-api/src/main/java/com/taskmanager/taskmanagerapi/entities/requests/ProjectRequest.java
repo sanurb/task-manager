@@ -1,6 +1,8 @@
-package com.taskmanager.taskmanagerapi.dto;
+package com.taskmanager.taskmanagerapi.entities.requests;
 
-import jakarta.persistence.*;
+import com.taskmanager.taskmanagerapi.entities.User;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,21 +15,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@Table(name="Projects")
-public class Project {
-
-    @Id
-    @GeneratedValue
-    private int id;
+public class ProjectRequest {
 
     private String name;
 
     private String description;
 
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<User> created_by_user_id;
+    private int created_by_user_id;
 
     private Date created_at;
 

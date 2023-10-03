@@ -3,7 +3,7 @@ package com.taskmanager.taskmanagerapi.Auth;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponse;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseErr;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.ErrorData;
-import com.taskmanager.taskmanagerapi.dto.UserResponse;
+import com.taskmanager.taskmanagerapi.entities.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

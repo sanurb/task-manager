@@ -1,4 +1,4 @@
-package com.taskmanager.taskmanagerapi.dto;
+package com.taskmanager.taskmanagerapi.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,4 +1,4 @@
-package com.taskmanager.taskmanagerapi.dto;
+package com.taskmanager.taskmanagerapi.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,26 +14,23 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="project_tasks")
-public class ProjectTask {
+@Table(name = "User_roles")
+public class UserRole {
 
     @Id
     @GeneratedValue
-    private int project_task_id;
+    private int id;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Task> task_id;
+    @OneToMany
+    private Set<User> user_id;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Project> project_id;
+    @OneToMany
+    private Set<Role> role_id;
 
     private Date created_at;
 
     private Date updated_at;
 
     private Date deleted_at;
-
-
-
 
 }

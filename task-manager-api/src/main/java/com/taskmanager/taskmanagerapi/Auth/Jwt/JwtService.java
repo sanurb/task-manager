@@ -1,6 +1,5 @@
 package com.taskmanager.taskmanagerapi.Auth.Jwt;
 
-import com.taskmanager.taskmanagerapi.dto.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -29,10 +29,11 @@ public class SecurityConfig {
                 .csrf(csrf ->
                         csrf
                                 .disable())
-                // Ask for login for any resource of the endpoint that's not in the /auth/ mapping
+                // Ask for login for any resource of the endpoint that's not in the /auth/ or OpenApi mapping
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(sessionManager ->
                         sessionManager
