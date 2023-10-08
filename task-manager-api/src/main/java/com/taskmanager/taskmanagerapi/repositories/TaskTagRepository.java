@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface TaskTagRepository extends JpaRepository<TaskTag, Integer> {
-    // Todo : verificar queries
     List<TaskTag> findAllByTaskId(Task id);
 
     List<TaskTag> findAllByUserId(User id);

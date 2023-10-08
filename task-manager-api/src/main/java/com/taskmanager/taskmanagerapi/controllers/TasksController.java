@@ -93,7 +93,7 @@ public class TasksController {
         tmpTag.get().setTaskId(setOfTasks);
 
         taskTagRepository.delete(tmpTag.get());
-        //Todo : check if the id keeps being the same
+        
         taskTagRepository.save(tmpTag.get());
 
 
