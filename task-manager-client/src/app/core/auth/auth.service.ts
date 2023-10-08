@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Inject, inject, Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { catchError, Observable, of, switchMap, tap, throwError } from 'rxjs';
@@ -10,6 +10,9 @@ export class AuthService {
     private readonly _httpClient = inject(HttpClient);
     private readonly _userService = inject(UserService);
 
+    constructor(
+        @Inject('environment') private environment,
+    ) { }
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
@@ -52,7 +55,7 @@ export class AuthService {
      *
      * @param credentials
      */
-    signIn(credentials: { email: string; password: string }): Observable<any> {
+    signIn(credentials: { username: string; password: string }): Observable<any> {
         // Throw error, if the user is already logged in
         if (this._authenticated) {
         return of(null).pipe(
@@ -60,10 +63,10 @@ export class AuthService {
         );
     }
 
-        return this._httpClient.post('http://127.0.0.1:8090/auth/login', credentials).pipe(
+        return this._httpClient.post(`${this.environment.baseUrl}/auth/login`, credentials).pipe(
             tap((response: any) => {
                 if (response.error?.status === 400 && response.error?.detail === "Bad credentials") {
-                    throw new Error('Invalid email or password.');
+                    throw new Error('Invalid username or password.');
                 }
             }),
             switchMap((response: any) => {
@@ -95,7 +98,7 @@ export class AuthService {
             })
         };
 
-        return this._httpClient.get('http://127.0.0.1:8090/auth/getUserByToken', httpOptions).pipe(
+        return this._httpClient.get(`${this.environment.baseUrl}/auth/getUserByToken`, httpOptions).pipe(
             catchError(() => {
                 return of(false);
             }),

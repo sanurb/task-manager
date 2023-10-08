@@ -10,6 +10,7 @@ import { provideAuth } from 'app/core/auth/auth.provider';
 import { provideIcons } from 'app/core/icons/icons.provider';
 import { provideTransloco } from 'app/core/transloco/transloco.provider';
 import { mockApiServices } from 'app/mock-api';
+import { environment } from 'environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -19,7 +20,10 @@ export const appConfig: ApplicationConfig = {
             withPreloading(PreloadAllModules),
             withInMemoryScrolling({scrollPositionRestoration: 'enabled'}),
         ),
-
+        {
+            provide: 'environment',
+            useValue: environment,
+        },
         // Material Date Adapter
         {
             provide : DateAdapter,
