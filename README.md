@@ -36,6 +36,11 @@ Task Manager is a web-based application that allows individuals and teams to man
 
 - User-friendly interface for task management.
 - Prioritization of tasks with categories and tags.
+
+## Reading material
+
+To get more technical information about the project please make sure to read this [overview](https://proyecto-informatico.gitbook.io/task-manager/technical-overview/overview).
+
 ## Setup
 
 ### ⚡ Requirements
