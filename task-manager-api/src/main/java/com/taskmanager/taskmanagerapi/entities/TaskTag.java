@@ -1,5 +1,6 @@
 package com.taskmanager.taskmanagerapi.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,10 +25,10 @@ public class TaskTag {
     private String tag_name;
 
     @Column(nullable = false)
-    private int user_id;
+    private int userId;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Task> task_id;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Task> taskId;
 
 
 }

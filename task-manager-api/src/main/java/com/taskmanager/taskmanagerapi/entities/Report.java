@@ -28,7 +28,6 @@ public class Report {
 
     private Date generated_date;
 
-    // todo: Talk with the group of what datatype is spected, cause the "json" is not Sql standard
     private String report_data;
 
     private Date created_at;
