@@ -1,4 +1,4 @@
-DROP DATABASE TaskmanagerG3;
+DROP DATABASE TaskmanagerG3DB;
 DROP USER 'taskManagerDBAdmin';
 
 CREATE DATABASE TaskmanagerG3DB;

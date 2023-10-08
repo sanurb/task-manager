@@ -2,6 +2,7 @@ package com.taskmanager.taskmanagerapi.Auth.Config;
 
 import com.taskmanager.taskmanagerapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
+
+    @Value("${cors.origin.url}")
+    private String originUrl;
 
     private final UserRepository userRepository;
 

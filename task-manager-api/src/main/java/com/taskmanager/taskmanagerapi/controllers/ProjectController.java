@@ -50,9 +50,8 @@ public class ProjectController {
         return new ArrayList<>();
     }
 
-    @GetMapping()
+    @GetMapping("{ProjectId}")
     @Operation(summary = "Get project by id", security = @SecurityRequirement(name = "bearerAuth"))
-    @RequestMapping("{ProjectId}")
     public Project getProjectById(@PathVariable(value = "ProjectId") int id){
 
         Optional<Project> tmp = projectRepository.findById(id);
