@@ -9,6 +9,7 @@ import com.taskmanager.taskmanagerapi.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,14 +20,15 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/TaskManager/API/V1/Project/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4201")
+@CrossOrigin(origins = "${cors.origin.url}")
 
 public class ProjectController {
     // Repositories needed
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
 
-
+    @Value("${cors.origin.url}")
+    private String originUrl;
 
     // GETs
 
@@ -34,6 +36,18 @@ public class ProjectController {
     @Operation(summary = "Get lists with all projects", security = @SecurityRequirement(name = "bearerAuth"))
     public List<Project> getAllProjects(){
         return projectRepository.findAll();
+    }
+
+    @GetMapping("getProjectsByUserId/{UserId}")
+    @Operation(summary = "Get projects by user ID", security = @SecurityRequirement(name = "bearerAuth"))
+    public List<Project> getProjectsByUserId(@PathVariable(value = "UserId") int userId) {
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            return projectRepository.findProjectsByUserId(userId);
+        }
+
+        return new ArrayList<>();
     }
 
     @GetMapping()

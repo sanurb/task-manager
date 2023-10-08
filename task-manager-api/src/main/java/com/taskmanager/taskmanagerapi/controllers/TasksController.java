@@ -10,6 +10,7 @@ import com.taskmanager.taskmanagerapi.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -19,12 +20,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/TaskManager/API/V1/Task/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4201")
+@CrossOrigin(origins = "${cors.origin.url}")
 public class TasksController {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
 
+    @Value("${cors.origin.url}")
+    private String originUrl;
 
     // GETs
 
@@ -48,7 +51,7 @@ public class TasksController {
 
     // POSTs
 
-    @PostMapping("")
+    @PostMapping("addTask")
     @Operation(summary = "Adds a task of the specified project id", security = @SecurityRequirement(name = "bearerAuth"))
     public Task addTaksByProjectId( @RequestBody TaskRequest request){
         Optional<Project> tmpProject = projectRepository.findById(request.getProject_id());
