@@ -11,6 +11,31 @@ type TransformerFunction<T, U> = (input: T) => U;
  * @param {Partial<Record<keyof T, TransformerFunction<any, any>>>} transformations - Un objeto que especifica las transformaciones opcionales a aplicar en campos específicos.
  *
  * @returns {U} - Retorna un objeto mapeado del tipo `U`.
+ *
+ * @example
+ * ```ts
+ * interface SourceType {
+ *   id: string;
+ *   date: string;
+ * }
+ *
+ * interface DestType {
+ *   id: number;
+ *   date: Date;
+ * }
+ *
+ * const source: SourceType = {
+ *   id: "1",
+ *   date: "2023-10-08"
+ * };
+ *
+ * const transformed = dynamicTypeMapper<SourceType, DestType>(source, {
+ *   id: (value) => Number(value),
+ *   date: (value) => new Date(value)
+ * });
+ *
+ * console.log(transformed); // { id: 1, date: Date('2023-10-08') }
+ * ```
  */
 export function dynamicTypeMapper<T extends Record<string, any>, U>(
     source: T,
