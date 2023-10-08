@@ -19,15 +19,6 @@
             <!-- Alert -->
             <fuse-alert
                 class="mt-8"
-                [appearance]="'outline'"
-                [showIcon]="false"
-                [type]="'info'">
-                You are browsing <strong>Fuse Demo</strong>. Click on the "Sign in" button to access the Demo and Documentation.
-            </fuse-alert>
-
-            <!-- Alert -->
-            <fuse-alert
-                class="mt-8"
                 *ngIf="showAlert"
                 [appearance]="'outline'"
                 [showIcon]="false"
@@ -42,18 +33,15 @@
                 [formGroup]="signInForm"
                 #signInNgForm="ngForm">
 
-                <!-- Email field -->
+                <!-- Username field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>Username</mat-label>
                     <input
-                        id="email"
+                        id="username"
                         matInput
-                        [formControlName]="'email'">
-                    <mat-error *ngIf="signInForm.get('email').hasError('required')">
-                        Email address is required
-                    </mat-error>
-                    <mat-error *ngIf="signInForm.get('email').hasError('email')">
-                        Please enter a valid email address
+                        [formControlName]="'username'">
+                    <mat-error *ngIf="signInForm.get('username').hasError('required')">
+                        Username is required
                     </mat-error>
                 </mat-form-field>
 
@@ -116,14 +104,14 @@
                 </button>
 
                 <!-- Separator -->
-                <div class="flex items-center mt-8">
+                <!-- <div class="flex items-center mt-8">
                     <div class="flex-auto mt-px border-t"></div>
                     <div class="mx-2 text-secondary">Or continue with</div>
                     <div class="flex-auto mt-px border-t"></div>
-                </div>
+                </div> -->
 
                 <!-- Single sign-on buttons -->
-                <div class="flex items-center mt-8 space-x-4">
+                <!-- <div class="flex items-center mt-8 space-x-4">
                     <button
                         class="flex-auto"
                         type="button"
@@ -148,7 +136,7 @@
                             class="icon-size-5"
                             [svgIcon]="'feather:github'"></mat-icon>
                     </button>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

@@ -5,6 +5,7 @@ import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseErr;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.ErrorData;
 import com.taskmanager.taskmanagerapi.entities.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +16,19 @@ import java.text.ParseException;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "${cors.origin.url}")
 public class AuthController {
 
     private final AuthService authService;
+    @Value("${cors.origin.url}")
+    private String originUrl;
     @PostMapping(value = "login")
-    @CrossOrigin(origins = "http://localhost:4201")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
 
         return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping(value = "register")
-    @CrossOrigin(origins = "http://localhost:4201")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws ParseException {
         //return ResponseEntity.ok(authService.register(request));
 
@@ -42,7 +44,6 @@ public class AuthController {
     }
 
     @GetMapping(value = "/getUserByToken")
-    @CrossOrigin(origins = "http://localhost:4201")
     public ResponseEntity<UserResponse> getUserByToken(@RequestHeader("Authorization") String token) {
         // Removing the "Bearer " prefix from the token
         token = token.replace("Bearer ", "");
