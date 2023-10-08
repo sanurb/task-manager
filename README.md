@@ -1,100 +1,108 @@
-## 1. Context Diagram
-```mermaid
-C4Context
-    title Authentication System Context Diagram
-    Enterprise_Boundary(authBoundary, "Authentication System") {
-        Person(user, "End User", "User trying to access the application.")
-        System(authSystem, "Authentication System", "Handles user registration, login, and JWT token management.")
-        System(externalSystem, "External System", "Other systems that might interact with the authentication system.")
-    }
-    BiRel(user, authSystem, "Registers/Logs in")
-    BiRel(externalSystem, authSystem, "Requests user data or verifies tokens")
+<div align = "center">
 
+<h1><a href="https://github.com/sanurb/task-manager">Task Manager</a></h1>
 
+<a href="https://github.com/sanurb/task-manager/blob/main/LICENSE">
+<img alt="License" src="https://img.shields.io/github/license/sanurb/task-manager?style=flat&color=eee&label="> </a>
+
+<a href="https://github.com/sanurb/task-manager/graphs/contributors">
+<img alt="People" src="https://img.shields.io/github/contributors/sanurb/task-manager?style=flat&color=ffaaf2&label=People"> </a>
+
+<a href="https://github.com/sanurb/task-manager/stargazers">
+<img alt="Stars" src="https://img.shields.io/github/stars/sanurb/task-manager?style=flat&color=98c379&label=Stars"></a>
+
+<a href="https://github.com/sanurb/task-manager/network/members">
+<img alt="Forks" src="https://img.shields.io/github/forks/sanurb/task-manager?style=flat&color=66a8e0&label=Forks"> </a>
+
+<a href="https://github.com/sanurb/task-manager/watchers">
+<img alt="Watches" src="https://img.shields.io/github/watchers/sanurb/task-manager?style=flat&color=f5d08b&label=Watches"> </a>
+
+<a href="https://github.com/sanurb/task-manager/pulse">
+<img alt="Last Updated" src="https://img.shields.io/github/last-commit/sanurb/task-manager?style=flat&color=e06c75&label="> </a>
+
+<h3>A Simple and Efficient Task Management System</h3>
+
+<!-- <figure>
+  <img src="images/screenshot.png" alt="bare-minimum in action">
+  <br/>
+  <figcaption>bare-minimum in action</figcaption>
+</figure> -->
+
+</div>
+
+Task Manager is a web-based application that allows individuals and teams to manage, track, and collaborate on their tasks and projects.
+
+## ✨ Features
+
+- User-friendly interface for task management.
+- Prioritization of tasks with categories and tags.
+## Setup
+
+### ⚡ Requirements
+
+Frontend:
+- NodeJS >= 14.x
+- Angular CLI
+- Nx CLI (optional but recommended)
+
+Backend:
+- Java JDK 17+
+- Apache Maven 3.8+
+- Mysql Server 8+
+
+### 🚀 Installation
+
+Fronted:
+```bash
+git clone https://github.com/sanurb/task-manager
+cd task-manager
+npm install
 ```
+Backend:
+> **Note:** If you don't have maven installed in your computer, you can check [this tutorial](https://mkyong.com/maven/how-to-install-maven-in-windows/). If you also don't have the JDK-17, download and install the Amazon Corretto version [here](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html).
 
-## 2. Container Diagram
-```mermaid
-C4Container
-title Authentication System Container Diagram
 
-Enterprise_Boundary(authBoundary, "Authentication System") {
-    Person(user, "End User", "User trying to access the application.")
-    System(database, "Database", "Stores user data and hashed passwords.")
-    
-    Container(frontendApp, "Frontend Application", "React-based web application for registration and login.")
-    Container(backendApp, "Backend API", "Spring Boot backend for authentication, user management, and JWT token generation.")
+### 💻 Usage
 
-    Rel(user, frontendApp, "Uses", "HTTP/HTTPS")
-    Rel(backendApp, database, "Reads/Writes user data", "SQL")
-    Rel(frontendApp, backendApp, "Sends authentication requests", "HTTP/HTTPS")
-    
-}
-
+Frontend:
+```bash
+ng serve
 ```
+Visit http://localhost:4200 on your browser to access the Task Manager.
 
-## 3. Component Diagram
-```mermaid
-C4Component
-    title Backend API Component Diagram
-    Enterprise_Boundary(backendBoundary, "Backend API (Spring Boot)") {
-        
-        Component(authController, "Auth Controller", "Exposes endpoints for user registration and login.")
-        Component(authService, "Auth Service", "Handles main authentication logic.")
-        Component(jwtService, "JWT Service", "Manages JWT token operations.")
-        Component(userRepository, "User Repository", "CRUD operations for users.")
-        Component(loginRequest, "Login Request DTO", "Data structure for login.")
-        Component(registerRequest, "Register Request DTO", "Data structure for registration.")
-        
-        System(database, "Database", "Stores user data and hashed passwords.")
-        
-        Rel(authController, authService, "Delegates authentication tasks")
-        Rel(authService, jwtService, "Requests JWT operations")
-        Rel(authService, userRepository, "CRUD operations")
-        Rel(authController, loginRequest, "Uses for login")
-        Rel(authController, registerRequest, "Uses for registration")
-        Rel(userRepository, database, "Reads/Writes user data")
-    }
+Backend:
+- First of all, check that the requirements are satisfied, to do so. open a terminal and run the following command and check that the Maven version and Java version are the correct ones
 
-```
+> mvn --version
+- Then, open a terminal and go to the project directory "***task-manager/task-manager-api***",  and run the following command:
+> mvn spring-boot:run
 
-```mermaid
-C4Component
-    title Frontend Application Component Diagram
-    Enterprise_Boundary(frontendBoundary, "Frontend Application (React)") {
-        
-        Component(signInPage, "SignIn Page", "User interface for logging in.")
-        Component(signUpPage, "SignUp Page", "User interface for registration.")
-        Component(authContext, "Auth Context", "Manages user authentication state in the frontend and provides functions for login and registration.")
-        Component(jwtService, "JWT Service", "Handles JWT token management, API calls, and Axios configurations.")
-        Component(jwtServiceConfig, "JWT Service Config", "Configurations for JWT service, including endpoint routes.")
-        Component(authRoles, "Auth Roles", "Defines authorization roles like admin, staff, user, etc.")
-        
-        Rel(signInPage, authContext, "Uses for authentication")
-        Rel(signUpPage, authContext, "Uses for registration")
-        Rel(authContext, jwtService, "Makes API calls for authentication")
-        Rel(jwtService, jwtServiceConfig, "Utilizes for API configurations")
-        Rel(signInPage, authRoles, "May use to determine access")
-        Rel(signUpPage, authRoles, "May use to determine access")
-    }
+Now the project should be running on port 8090 and with your local address 127.0.0.1
 
-```
+### ✅ To-Do
 
-# Database
+- [x] Setup repo
+- [x] Implement user authentication.
+- [ ] Add notifications.
+- [ ] Add calendar integrations.
 
-```mermaid
-erDiagram
-    Users ||--o{ User_Roles : has
-    Users ||--o{ Tasks : "creates/updates"
-    Users ||--o{ Tasks : "assigns to"
-    Users ||--o{ Projects : creates
-    Users ||--o{ Reports : generates
-    Roles ||--o{ User_Roles : has
-    Tasks ||--o{ Project_Tasks : belongs_to
-    Projects ||--o{ Project_Tasks : has
+##  Behind The Code
 
-```
+### 🌈 Inspiration
 
-The tables related to authentication and roles are in shades of blue, tasks and projects in green, and reports in shades of orange:
+Task Manager was inspired by the need for a simple, yet powerful, task management tool that caters to both individuals and teams.
 
-![ER](./dbmodel.svg)
+### 💡 Challenges/Learnings
+
+- The main challenges were handling real-time collaboration.
+- learned about optimizing Angular applications for performance and scalability.
+
+<hr>
+
+<div align="center">
+
+<strong>⭐ hit the star button if you found this useful ⭐</strong><br>
+
+<!-- <a href="https://github.com/sanurb/task-manager">Source</a> -->
+
+</div>
