@@ -3,37 +3,37 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
-    }
+                id   : 'apps.tasks',
+                title: 'Tasks',
+                type : 'basic',
+                icon : 'heroicons_outline:check-circle',
+                link : '/apps/tasks',
+            },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
-    }
+                id   : 'apps.tasks',
+                title: 'Tasks',
+                type : 'basic',
+                icon : 'heroicons_outline:check-circle',
+                link : '/apps/tasks',
+            },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
-    }
+                id   : 'apps.tasks',
+                title: 'Tasks',
+                type : 'basic',
+                icon : 'heroicons_outline:check-circle',
+                link : '/apps/tasks',
+            },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
-    }
+                id   : 'apps.tasks',
+                title: 'Tasks',
+                type : 'basic',
+                icon : 'heroicons_outline:check-circle',
+                link : '/apps/tasks',
+            },
 ];

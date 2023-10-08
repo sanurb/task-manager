@@ -19,14 +19,14 @@ public class AuthController {
 
     private final AuthService authService;
     @PostMapping(value = "login")
-    @CrossOrigin(origins = "http://localhost:4201")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
 
         return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping(value = "register")
-    @CrossOrigin(origins = "http://localhost:4201")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws ParseException {
         //return ResponseEntity.ok(authService.register(request));
 
@@ -42,7 +42,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/getUserByToken")
-    @CrossOrigin(origins = "http://localhost:4201")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<UserResponse> getUserByToken(@RequestHeader("Authorization") String token) {
         // Removing the "Bearer " prefix from the token
         token = token.replace("Bearer ", "");
