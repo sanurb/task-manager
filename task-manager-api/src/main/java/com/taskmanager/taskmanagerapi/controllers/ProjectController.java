@@ -69,7 +69,6 @@ public class ProjectController {
 
     // UPDATEs / PUT
 
-    // Todo: Create endpoints for update the projects
 
     @PutMapping("update/{ProjectId}")
     @Operation(summary = "Update a project by ID", security = @SecurityRequirement(name = "bearerAuth"))
@@ -84,7 +83,6 @@ public class ProjectController {
             tmp.get().setDeleted_at(project.getDeleted_at());
             tmp.get().setDescription(project.getDescription());
             */
-            // Todo : call repository and update the current project: has to make a query for that in repo
 
             projectRepository.updateProjectInfo(project.getName(), project.getDescription(), project.getUpdated_at(), project.getDeleted_at() ,id);
             tmp = projectRepository.findById(id);
@@ -106,10 +104,8 @@ public class ProjectController {
         Optional<User> tmpUser = userRepository.findById(project.getCreated_by_user_id());
 
         if(tmpUser.isEmpty()){
-            //Todo: throw error
-        }
 
-        // Todo: Check for errors in the creation of the collection
+        }
 
         tmp = Project.builder()
                 .name(project.getName())
@@ -120,7 +116,6 @@ public class ProjectController {
                 .updated_at(project.getUpdated_at())
                 .deleted_at(project.getDeleted_at())
                 .build();
-        // Todo : Solve the error that prevents that the same user create two projects
         return projectRepository.save(tmp);
 
 

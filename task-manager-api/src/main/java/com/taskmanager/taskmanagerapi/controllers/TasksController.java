@@ -31,7 +31,6 @@ public class TasksController {
 
     // GETs
 
-    //Todo : delete, endpoint for dev purposes
     @GetMapping("getAllTasks")
     @Operation(summary = "Returns all tasks", security = @SecurityRequirement(name = "bearerAuth"))
     public List<Task> getAllTasks(){
@@ -42,7 +41,6 @@ public class TasksController {
     @Operation(summary = "Returns a list of tasks of the specified project id", security = @SecurityRequirement(name = "bearerAuth"))
     @RequestMapping("{ProjectId}")
     public List<Task> getAllTaksByProject(@PathVariable(value = "ProjectId") int id){
-        //Todo : check if the query works fine
         Optional<Project> tmpProject = projectRepository.findById(id);
         List<Task> returnList = taskRepository.findAllByProjectId(tmpProject.get());
         return  returnList;
@@ -80,7 +78,6 @@ public class TasksController {
 
         }
 
-        // Todo : Handle errors of possible no existent project, could be handled also in the frontend
         return null;
 
 
@@ -100,7 +97,6 @@ public class TasksController {
             return tmpTask.get();
         }
 
-        // Todo : Handle errors of possible no existent project, could be handled also in the frontend
         return null;
 
     }
