@@ -5,8 +5,8 @@ import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponse;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseErr;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.AuthResponseOk;
 import com.taskmanager.taskmanagerapi.Auth.authResponse.ErrorData;
-import com.taskmanager.taskmanagerapi.dto.User;
-import com.taskmanager.taskmanagerapi.dto.UserResponse;
+import com.taskmanager.taskmanagerapi.entities.User;
+import com.taskmanager.taskmanagerapi.entities.UserResponse;
 import com.taskmanager.taskmanagerapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +33,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    // todo: check why is a error when giving the correct credentials
     public AuthResponse login(LoginRequest request) {
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
@@ -70,7 +69,6 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) throws ParseException {
 
         // Date of register
-        // todo : clean the code
         LocalDate dateObj = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateObj.format(formatter);
@@ -90,7 +88,6 @@ public class AuthService {
         userRepository.save(user);
 
         return AuthResponseOk.builder()
-                // todo generar token
                 .token(jwtService.getToken(user))
                 .build();
     }

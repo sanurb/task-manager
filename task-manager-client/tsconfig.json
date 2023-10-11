@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "outDir": "./dist/out-tsc",
+        "downlevelIteration": true,
+        "useDefineForClassFields": false
+    },
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false
+    },
+    "extends": "./tsconfig.base.json"
+}
