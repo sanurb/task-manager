@@ -7,37 +7,52 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x.x
-          cache: npm
-      - name: Install
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
         run: npm ci
-      - name: Test
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Run tests
+        run: npm run test -- --no-watch --browsers=ChromeHeadless
+
       - name: Build
-        run: npm run build -- -c production --base-href "https://sanurb.github.io/task-manager/"
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
+        run: npm run build -- --configuration production --base-href "https://sanurb.github.io/task-manager/"
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
         with:
-          path: dist/
+          name: angular-build
+          path: dist/task-manager-client
 
   deploy:
     needs: build
-    permissions:
-      repository-projects: read
-      pages: write
-      id-token: write
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-22.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: angular-build
+          path: dist
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/task-manager-client
