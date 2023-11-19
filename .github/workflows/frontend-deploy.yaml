@@ -30,6 +30,10 @@ jobs:
         run: npx nx run fuse:build:production -- --base-href "https://sanurb.github.io/task-manager/"
         working-directory: ./task-manager-client
 
+      - name: List build files
+        run: ls -R ./task-manager-client/dist/fuse
+        working-directory: .
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
