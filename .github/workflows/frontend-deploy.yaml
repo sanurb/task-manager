@@ -21,7 +21,7 @@ jobs:
       - name: Test
         run: npm run test -- --watch=false --browsers=ChromeHeadless
       - name: Build
-        run: npm run build -- -c production --base-href "https://<YOUR_GITHUB_USER_NAME>.github.io/<YOUR_REPOSITORY>/"
+        run: npm run build -- -c production --base-href "https://sanurb.github.io/task-manager/"
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
