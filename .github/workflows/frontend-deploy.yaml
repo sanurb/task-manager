@@ -56,7 +56,7 @@ jobs:
           path: dist
 
       - name: List Build Artifacts
-        run: ls -l
+        run: ls -l task-manager-client/dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
