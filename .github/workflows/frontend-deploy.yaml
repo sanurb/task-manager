@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: angular-build
-          path: dist/task-manager-client
+          path: task-manager-client/dist/fuse
 
   deploy:
     needs: build
@@ -55,4 +55,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/task-manager-client
+          publish_dir: ./dist/fuse
