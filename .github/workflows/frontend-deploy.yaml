@@ -38,6 +38,10 @@ jobs:
 
   deploy:
     needs: build
+    permissions:
+      repository-projects: read
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -50,6 +54,9 @@ jobs:
         with:
           name: angular-build
           path: dist
+
+      - name: List Build Artifacts
+        run: ls -l task-manager-client/dist/fuse
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
