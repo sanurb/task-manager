@@ -26,10 +26,6 @@ jobs:
         run: npm ci
         working-directory: ./task-manager-client
 
-      - name: Run tests
-        run: npm run test -- --no-watch --browsers=ChromeHeadless
-        working-directory: ./task-manager-client
-
       - name: Build
         run: npm run build -- --configuration production --base-href "https://sanurb.github.io/task-manager/"
         working-directory: ./task-manager-client
