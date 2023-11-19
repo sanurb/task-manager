@@ -35,13 +35,13 @@
 
                 <!-- Name field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Username</mat-label>
+                    <mat-label>Full name</mat-label>
                     <input
                         id="name"
                         matInput
                         [formControlName]="'name'">
                     <mat-error *ngIf="signUpForm.get('name').hasError('required')">
-                        Username is required
+                        Full name is required
                     </mat-error>
                 </mat-form-field>
 
