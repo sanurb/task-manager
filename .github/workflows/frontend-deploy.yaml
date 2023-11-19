@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         node-version: [18.x]
@@ -30,18 +30,14 @@ jobs:
         run: npx nx run fuse:build:production -- --base-href "https://sanurb.github.io/task-manager/"
         working-directory: ./task-manager-client
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
         with:
           name: angular-build
           path: task-manager-client/dist/fuse
 
   deploy:
     needs: build
-    permissions:
-      repository-projects: read
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
