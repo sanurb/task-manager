@@ -42,24 +42,11 @@ jobs:
       repository-projects: read
       pages: write
       id-token: write
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: angular-build
-          path: dist
-
-      - name: List Build Artifacts
-        run: ls -l task-manager-client/dist
-
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/fuse
+        id: deployment
+        uses: actions/deploy-pages@v2
