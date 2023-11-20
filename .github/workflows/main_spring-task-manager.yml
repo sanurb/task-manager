@@ -19,13 +19,15 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn -f ./task-manager-api/pom.xml clean install
+        run: |
+          mvn -f ./task-manager-api/pom.xml clean install
+          echo "JAR_NAME=$(ls ./task-manager-api/target/*.jar)" >> $GITHUB_ENV
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: './task-manager-api/target/task-manager-api-0.0.1-SNAPSHOT.jar'
+          path: ${{ env.JAR_NAME }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,4 +51,4 @@ jobs:
           app-name: 'spring-task-manager'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B14CB9F3073C49EA8F2D9537A7940DCF }}
-          package: './task-manager-api/target/task-manager-api-0.0.1-SNAPSHOT.jar'
+          package: ${{ env.JAR_NAME }}
