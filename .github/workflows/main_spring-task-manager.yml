@@ -49,4 +49,4 @@ jobs:
           app-name: 'spring-task-manager'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B14CB9F3073C49EA8F2D9537A7940DCF }}
-          package: java-app
+          package: '*.jar'
