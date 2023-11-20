@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: './task-manager-api/target/*.jar'
+          path: './task-manager-api/target/task-manager-api-0.0.1-SNAPSHOT.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,4 +49,4 @@ jobs:
           app-name: 'spring-task-manager'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B14CB9F3073C49EA8F2D9537A7940DCF }}
-          package: '*.jar'
+          package: './task-manager-api/target/task-manager-api-0.0.1-SNAPSHOT.jar'
