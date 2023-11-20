@@ -32,6 +32,11 @@
 
 Task Manager is a web-based application that allows individuals and teams to manage, track, and collaborate on their tasks and projects.
 
+## ✔ Deployment 
+
+- URL Front: https://sanurb.github.io/task-manager
+- URL Back: https://spring-task-manager.azurewebsites.net/swagger-ui/index.html
+
 ## ✨ Features
 
 - User-friendly interface for task management.
