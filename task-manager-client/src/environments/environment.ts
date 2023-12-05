@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    baseUrl: 'http:///proddummy.com',
+    baseUrl: 'https://spring-task-manager.azurewebsites.net',
 };
